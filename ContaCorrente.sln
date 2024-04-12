@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContaCorrente.ConsoleApp", "src\ContaCorrente.ConsoleApp\ContaCorrente.ConsoleApp.csproj", "{BB575DFE-D7E0-4B8F-893C-508B5623CCE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContaCorrente.ConsoleApp", "src\ContaCorrente.ConsoleApp\ContaCorrente.ConsoleApp.csproj", "{BB575DFE-D7E0-4B8F-893C-508B5623CCE1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E9121BAF-83F5-4580-B28F-FB90FC9224BC}"
+	ProjectSection(SolutionItems) = preProject
+		Requisitos.txt = Requisitos.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
