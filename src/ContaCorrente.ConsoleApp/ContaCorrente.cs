@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace ContaCorrente.ConsoleApp
+﻿namespace ContaCorrente.ConsoleApp
 {
     public class ContaCorrente
     {
@@ -18,25 +16,25 @@ namespace ContaCorrente.ConsoleApp
         {
 
 
-            if (saldo >= valor)
+            if (this.saldo >= valor)
             {
                 Extrato.tipo = '1';
                 Extrato.transacoes(Extrato.tipo);
-                saldo -= valor;
+                this.saldo -= valor;
 
-                Console.WriteLine($"Saque de R${valor:F} efetuado com sucesso!\nNovo saldo disponível: R${saldo:F}");
+                Console.WriteLine($"Saque de R${valor:F} efetuado com sucesso!\nNovo saldo disponível: R${this.saldo:F}");
 
                 historicoMovimentacoes[0] = $"{AdicionarTransacao(Extrato.tipo)} {valor:F} efetuado com Sucesso!";
-                Console.WriteLine("----------------------------------------------------------------");
+                Console.WriteLine("----------------------------------------------------------------------------------------------");
 
             }
             else if (limite >= valor)
             {
                 Extrato.tipo = '1';
                 Extrato.transacoes(Extrato.tipo);
-                limite -= valor;
+                this.limite -= valor;
 
-                Console.WriteLine("----------------------------------------------------------------");
+                Console.WriteLine("----------------------------------------------------------------------------------------------");
 
             }
             else
@@ -50,26 +48,26 @@ namespace ContaCorrente.ConsoleApp
             Extrato.tipo = '2';
             Extrato.transacoes(Extrato.tipo);
 
-            saldo += valor;
+            this.saldo += valor;
 
-            Console.WriteLine($"Depósito de R${valor:F} efetuado com sucesso!\nNovo saldo disponível: R${saldo:F}");
+            Console.WriteLine($"Depósito de R${valor:F} efetuado com sucesso!\nNovo saldo disponível: R${this.saldo:F}");
 
             historicoMovimentacoes[0] = $"{AdicionarTransacao(Extrato.tipo)} {valor:F} efetuado com Sucesso!";
-            Console.WriteLine("----------------------------------------------------------------");
+            Console.WriteLine("----------------------------------------------------------------------------------------------");
 
         }
         public void VisualizarSaldo()
         {
 
             Console.WriteLine($"Numero da conta: {numeroIdentificador}\tTitular da conta: {Titular.nome} {Titular.sobrenome}\n");
-            Console.WriteLine($"Saldo disponível: {saldo}\nLimite disponível: {limite}");
+            Console.WriteLine($"Saldo disponível: {this.saldo}\nLimite disponível: {limite}");
 
             Console.WriteLine($"Ultimas transações:" +
                                                        $"\n\t1 . {historicoMovimentacoes[0]}" +
                                                        $"\n\t2 . {historicoMovimentacoes[1]}" +
                                                        $"\n\t3 . {historicoMovimentacoes[2]}");
 
-            Console.WriteLine("----------------------------------------------------------------");
+            Console.WriteLine("----------------------------------------------------------------------------------------------");
         }
         public string AdicionarTransacao(char tipo)
         {
@@ -82,12 +80,16 @@ namespace ContaCorrente.ConsoleApp
         {
             if (Extrato.tipo == '1')
             {
-                movimentacao = $"{"Saque".PadRight(8)}: R$";
+                movimentacao = $"{"Saque".PadRight(13)}: R$";
             }
             else if (Extrato.tipo == '2')
             {
 
-                movimentacao = $"{"depósito".PadRight(8)}: R$";
+                movimentacao = $"{"depósito".PadRight(13)}: R$";
+            }
+            else if (Extrato.tipo == '3')
+            {
+                movimentacao = $"{"Transferencia".PadRight(13)}: R$";
             }
             for (int i = historicoMovimentacoes.Length - 1; i > 0; i--)
             {
@@ -96,22 +98,38 @@ namespace ContaCorrente.ConsoleApp
             historicoMovimentacoes[0] = movimentacao;
         }
 
+        public void Tranferir(double valor, ContaCorrente Recebedor)
+        {
+            if (this.saldo >= valor)
+            {
+                this.saldo -= valor;
+                Recebedor.saldo += valor;
+                historicoMovimentacoes[0] = $"{AdicionarTransacao(Extrato.tipo)} Transferência para {Recebedor.Titular.nome} no valor de R${valor:F} efetuada com Sucesso!";
+                Console.WriteLine("----------------------------------------------------------------------------------------------");
+                Recebedor.historicoMovimentacoes[0] = $"{Recebedor.AdicionarTransacao(Extrato.tipo)} Transferência recebida de {this.Titular.nome} no valor de R${valor:F} efetuada com Sucesso!";
+                Console.WriteLine("----------------------------------------------------------------------------------------------");
+
+
+            }
+            else
+            {
+                Console.WriteLine("Saldo insuficiente para transferência!");
+            }
+        }
         public void VisualizarTransacoes()
         {
-            Console.WriteLine($"Seu extrato de Transações:\t\t Saldo Atual: {saldo}");
+            Console.WriteLine($"Extrato de Transações da Conta de {Titular.nome}:\t\t Saldo Atual: {saldo}");
             Array.Reverse(historicoMovimentacoes);
             for (int i = 0; i < historicoMovimentacoes.Length; i++)
             {
                 if (historicoMovimentacoes[i] != null)
                 {
                     historicoMovimentacoes[i] = historicoMovimentacoes[i];
-                    Console.WriteLine($"\t{Math.Abs(i-100)} - {historicoMovimentacoes[i]}");
+                    Console.WriteLine($"\t{Math.Abs(i - 100)} - {historicoMovimentacoes[i]}");
                 }
             }
 
         }
-
-
 
         public void DefinirTipo(char status)
         {
@@ -119,15 +137,15 @@ namespace ContaCorrente.ConsoleApp
             {
                 case '0':
                     Console.WriteLine("Esta é uma conta com privilégios especiais.");
-                    Console.WriteLine("----------------------------------------------------------------");
+                    Console.WriteLine("----------------------------------------------------------------------------------------------");
                     break;
                 case '1':
                     Console.WriteLine("Esta é uma conta normal.");
-                    Console.WriteLine("----------------------------------------------------------------");
+                    Console.WriteLine("----------------------------------------------------------------------------------------------");
                     break;
                 case '2':
                     Console.WriteLine("Esta está desativada.");
-                    Console.WriteLine("----------------------------------------------------------------");
+                    Console.WriteLine("----------------------------------------------------------------------------------------------");
                     break;
             }
         }

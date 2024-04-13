@@ -25,10 +25,5 @@ namespace ContaCorrente.ConsoleApp
                 Console.WriteLine("Tipo de transação não encontrado.");
             }
         }
-
-        internal void transacoes(object tipo)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
