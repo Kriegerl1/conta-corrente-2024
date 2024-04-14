@@ -2,21 +2,27 @@
 {
     public class ContaCorrente
     {
-        public int numeroIdentificador;
-        public double saldo;
-        public double limite;
+        public int numeroIdentificador, contador = 0;
+        public double saldo, limite;
         public char status;
-        public int contador = 0;
         public string[] historicoMovimentacoes = new string[100];
         public PessoaFisica Titular;
         public Historico Extrato;
         public string movimentacao;
 
+        public ContaCorrente(int numeroIdentificador, double saldo, double limite, char status)
+        {
+            this.numeroIdentificador = numeroIdentificador;
+            this.saldo = saldo;
+            this.limite = limite;
+            this.status = status;
+
+        }
         public void Sacar(double valor)
         {
 
 
-            if (this.saldo >= valor)
+            if (this.saldo >= valor && status != '2')
             {
                 Extrato.tipo = '1';
                 Extrato.transacoes(Extrato.tipo);
@@ -28,18 +34,26 @@
                 Console.WriteLine("----------------------------------------------------------------------------------------------");
 
             }
-            else if (limite >= valor)
+            else if (limite >= valor && status != '2')
             {
                 Extrato.tipo = '1';
                 Extrato.transacoes(Extrato.tipo);
                 this.limite -= valor;
 
+                historicoMovimentacoes[0] = $"{AdicionarTransacao(Extrato.tipo)} {valor:F} efetuado com Sucesso!";
                 Console.WriteLine("----------------------------------------------------------------------------------------------");
 
             }
             else
             {
-                Console.WriteLine("Saldo insuficiente para saque!");
+                if (status != '2')
+                {
+                    Console.WriteLine("Saldo insuficiente para saque!");
+                }
+                else
+                {
+                    Console.WriteLine("Esta conta está desativada!");
+                }
             }
 
         }
@@ -47,14 +61,19 @@
         {
             Extrato.tipo = '2';
             Extrato.transacoes(Extrato.tipo);
+            if (status != '2')
+            {
+                this.saldo += valor;
 
-            this.saldo += valor;
+                Console.WriteLine($"Depósito de R${valor:F} efetuado com sucesso!\nNovo saldo disponível: R${this.saldo:F}");
 
-            Console.WriteLine($"Depósito de R${valor:F} efetuado com sucesso!\nNovo saldo disponível: R${this.saldo:F}");
-
-            historicoMovimentacoes[0] = $"{AdicionarTransacao(Extrato.tipo)} {valor:F} efetuado com Sucesso!";
-            Console.WriteLine("----------------------------------------------------------------------------------------------");
-
+                historicoMovimentacoes[0] = $"{AdicionarTransacao(Extrato.tipo)} {valor:F} efetuado com Sucesso!";
+                Console.WriteLine("----------------------------------------------------------------------------------------------");
+            }
+            else
+            {
+                Console.WriteLine("Esta conta está desativada!");
+            }
         }
         public void VisualizarSaldo()
         {

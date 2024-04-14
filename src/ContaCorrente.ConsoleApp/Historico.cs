@@ -1,5 +1,4 @@
-﻿
-namespace ContaCorrente.ConsoleApp
+﻿namespace ContaCorrente.ConsoleApp
 {
     public class Historico
     {
