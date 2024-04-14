@@ -1,4 +1,6 @@
 ﻿using System.Reflection.Metadata;
+using System.Runtime;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ContaCorrente.ConsoleApp
 {
@@ -21,14 +23,27 @@ namespace ContaCorrente.ConsoleApp
             novaConta2.Titular = novaPessoa2;
             novaConta2.Extrato = new Historico();
             #endregion
-            #region pessoa3
+            #region pessoa3 & conta3
 
-            PessoaFisica novaPessoa3 = new PessoaFisica(ObterValor<string>("CPF:"),ObterValor<string>("Nome:"),ObterValor<string>("Sobrenome:"));
-            ContaCorrente novaConta3 = new ContaCorrente(ObterValor<int>("ID:"),ObterValor<double>("Saldo:"),ObterValor<double>("Limite:"),ObterValor<char>("Tipo de conta:"));
+            PessoaFisica novaPessoa3 = new PessoaFisica(
+                                                        ObterValor<string>("Cpf:"),
+                                                        ObterValor<string>("Nome:"),
+                                                        ObterValor<string>("Sobrenome:")
+                                                        );
+
+            ContaCorrente novaConta3 = new ContaCorrente(
+                                                        ObterValor<int>("ID:"),
+                                                        ObterValor<double>("Saldo:"),
+                                                        ObterValor<double>("Limite:"),
+                                                        ObterValor<char>("Tipo de conta:")
+                                                        );
             novaConta3.Titular = novaPessoa3;
             novaConta3.Extrato = new Historico();
             #endregion
             #endregion
+
+            #region Passagem de valores não utilizados
+
             #region Passagem de valores para novaPessoa
 
             //novaPessoa.nome = "Leonardo";
@@ -60,6 +75,8 @@ namespace ContaCorrente.ConsoleApp
 
             #endregion
 
+            #endregion
+
             #region Atividades novaConta
             novaConta.Sacar(100.5);
             novaConta.Depositar(1100);
@@ -72,17 +89,18 @@ namespace ContaCorrente.ConsoleApp
             novaConta.Tranferir(399.5, novaConta2);
             #endregion
             #region Atividades novaConta2
-
+            novaConta2.Depositar(400.5);
+            novaConta2.Depositar(100);
+            novaConta2.Depositar(100);
+            novaConta2.Sacar(1000);
             novaConta2.VisualizarSaldo();
             novaConta2.DefinirTipo(novaConta2.status);
             novaConta2.VisualizarTransacoes();
             #endregion
-            #region Atividade novaPessoa3
-            novaConta3.VisualizarSaldo();
-            #endregion
-        }
 
-        static T ObterValor<T>(string texto)
+        }
+        #region Métodos da Main
+        public static T ObterValor<T>(string texto)
         {
             Console.WriteLine(texto);
 
@@ -98,5 +116,9 @@ namespace ContaCorrente.ConsoleApp
                 return ObterValor<T>(texto);
             }
         }
+
+        #endregion
     }
+
+
 }

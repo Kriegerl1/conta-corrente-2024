@@ -16,8 +16,8 @@
             this.saldo = saldo;
             this.limite = limite;
             this.status = status;
-
         }
+
         public void Sacar(double valor)
         {
 
@@ -57,6 +57,7 @@
             }
 
         }
+
         public void Depositar(double valor)
         {
             Extrato.tipo = '2';
@@ -75,6 +76,7 @@
                 Console.WriteLine("Esta conta está desativada!");
             }
         }
+
         public void VisualizarSaldo()
         {
 
@@ -88,6 +90,7 @@
 
             Console.WriteLine("----------------------------------------------------------------------------------------------");
         }
+
         public string AdicionarTransacao(char tipo)
         {
             DefinirOrdem();
@@ -135,6 +138,7 @@
                 Console.WriteLine("Saldo insuficiente para transferência!");
             }
         }
+
         public void VisualizarTransacoes()
         {
             Console.WriteLine($"Extrato de Transações da Conta de {Titular.nome}:\t\t Saldo Atual: {saldo}");
